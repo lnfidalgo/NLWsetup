@@ -1,21 +1,22 @@
-import Fastify from "fastify"
-import { PrismaClient } from '@prisma/client'
-import cors from '@fastify/cors'
+import Fastify from "fastify";
+import { PrismaClient } from "@prisma/client";
+import cors from "@fastify/cors";
 
-const app = Fastify()
-const prisma = new PrismaClient()
+const app = Fastify();
+const prisma = new PrismaClient();
 
-app.register(cors)
+app.register(cors);
 
+app.get("/", async () => {
+  const habits = await prisma.habit.findMany();
 
-app.get('/', async () => {
-  const habits = await prisma.habit.findMany()
+  return habits;
+});
 
-  return habits
-})
-
-app.listen({
-  port: 3333,
-}).then(() => {
-  console.log('Server running!')
-})
+app
+  .listen({
+    port: 3333,
+  })
+  .then(() => {
+    console.log("Server running!");
+  });
